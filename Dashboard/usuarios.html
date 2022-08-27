@@ -266,7 +266,7 @@
 					
 					console.log("Usuarios");
 
-					fetch('http://localhost:3000/usuario',{
+					fetch('https://concurso-backend-api.herokuapp.com/usuarios',{
 						headers:{
 							'authorization':localStorage.getItem('token')
 						}
@@ -311,7 +311,7 @@
 					// console.log(index);
 					//Get user id and delete it from the database
 					let id = this.usuarios[index].id;
-					fetch('http://localhost:3000/usuario/delete/'+id,{
+					fetch('https://concurso-backend-api.herokuapp.com/usuarios/delete/'+id,{
 						method:'DELETE',
 						headers:{
 							'authorization':localStorage.getItem('token')
@@ -373,7 +373,7 @@
 					// 	this.limpiar();
 					// }
 					//Post https://lectura-medidor-api.herokuapp.com/api/auth/register new user
-					fetch('http://localhost:3000/auth/register',{
+					fetch('https://concurso-backend-api.herokuapp.com/auth/register',{
 						method:'POST',
 						headers:{
 							'Content-Type':'application/json',
