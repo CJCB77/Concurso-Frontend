@@ -97,17 +97,17 @@
                     <th style="width: 10%;">Calificar</th>
                 </thead>
                 <tbody>
-                    <tr v-for="(estudiante, index) in filtroEstudiante">
+                    <tr v-for="(estudiante, index) in filtroEstudiantes">
                         <td style="width: 20%;">
-                            <img v-bind:src="estudiante.imagen" alt="imagen" class="" style="height: 150px; width: 150px;">
+                            <img v-bind:src="estudiante.foto" alt="imagen" class="" style="height: 150px; width: 150px;">
                         </td>
                         <td style="width: 20%; vertical-align: middle;">{{estudiante.cedula}}</td>
                         <td style="width: 20%; vertical-align: middle;">{{estudiante.nombres}}</td>
                         <td style="width: 10%; vertical-align: middle;">{{estudiante.apellidos}}</td>
                         <td style="width: 10%; vertical-align: middle;">{{estudiante.tema}}</td>
-                        <td style="width: 20%; vertical-align: middle;">{{estudiante.fase}}</td>
+                        <td style="width: 20%; vertical-align: middle;">{{estudiante.fase_id}}</td>
                         <td style="width: 20%; vertical-align: middle;">{{estudiante.correo}}</td>
-                        <td style="width: 20%; vertical-align: middle;">{{estudiante.nota}}</td>
+                        <td style="width: 20%; vertical-align: middle;">{{estudiante.nota_final}}</td>
                         <td style="width: 15%; vertical-align: middle;"><button type="button" class="btn btn-dark px-4" data-bs-toggle="modal" data-bs-target="#calificarModal" @click="calificarEstudiante(index)">Calificar</button></td>
                     </tr>
                 </tbody>
@@ -155,34 +155,34 @@
         const app = new Vue({
             el: '#app',
             data: {
-                juguetes: [],
+                estudiantes: [],
                 id_usuario: localStorage.getItem('id_usuario'),
-                imagen: '',
-                nombre: '',
-                file: '',
-                precio: '',
-                stock: '',
-                descripcion: '',
-                buscador: '',
+                foto: '',
+                cedula: '',
+                nombres: '',
+                apellidos: '',
+                fase: '',
+                correo: '',
+                nota: '',
             },
             mounted() {
-                this.getJuguetes();
+                this.getEstudiantes();
          
             },
             computed: {
-                filtroJuguetes() {
+                filtroEstudiantes() {
                   if(this.buscador == ''){
-                    return this.juguetes;
+                    return this.estudiantes;
                 }   
-                return this.juguetes.filter((juguete) => {
-                    return juguete.nombre.toLowerCase().includes(this.buscador.toLowerCase())
+                return this.estudiantes.filter((estudiante) => {
+                    return estudiante.nombre.toLowerCase().includes(this.buscador.toLowerCase())
                 });
                
                 }
             },
             methods:{
-                getJuguetes(){
-                    fetch('http://localhost:3000/juguetes?' + 'id_usuario=' + this.id_usuario, {
+                getEstudiantes(){
+                    fetch('https://concurso-backend-api.herokuapp.com/estudiantes', {
                         headers: {
                             authorization: localStorage.getItem('token')
                         }
@@ -195,12 +195,13 @@
                             }
                     })
                     .then(data => {
-                        this.juguetes = data;
+                        this.estudiantes = data;
+                        console.log(data)
                     })
                 },
                 actualizar(){
                     
-                    fetch('http://localhost:3000/jugueterias/update/'+ this.id,{
+                    fetch('https://concurso-backend-api.herokuapp.com/estudiantes'+ this.id,{
                         method:'PUT',
                         headers:{
                             'Content-Type':'application/json',
@@ -219,7 +220,7 @@
                     .then(response=> response.json())
                     .then(data=>{
                         console.log(data);
-                            fetch("http://localhost:3000/jugueterias/" + data.id,{
+                            fetch("" + data.id,{
                                 method:'GET',
                                 headers:{
                                     'authorization':localStorage.getItem('token')
@@ -252,7 +253,7 @@
 					// console.log(index);
 					//Get user id and delete it from the database
 					let id = this.juguetes[index].id;
-					fetch('http://localhost:3000/juguetes/delete/'+id,{
+					fetch(''+id,{
 						method:'DELETE',
 						headers:{
 							'authorization':localStorage.getItem('token')
