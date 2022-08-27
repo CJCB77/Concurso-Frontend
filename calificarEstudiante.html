@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <div class="text-center mt-5 mb-3">
-                    <button class="btn btn-dark btn-lg px-5" @click="registrar" >Guardar</button>
+                    <button class="btn btn-dark btn-lg px-5" @click="aceptar" >Guardar</button>
                 </div>
             </div>
         </section>
@@ -140,45 +140,57 @@
         const app = new Vue({
             el: '#app',
             data: {
-                id_usuario: localStorage.getItem('id_usuario'),
-                nombre: '',
-                descripcion: '',
-                stock: '',
-                precio: '',
-                imagen: '',
-                file: '',
-                imagen_url: '',
-                id_fabricante: '',
+                id_estudiante: localStorage.getItem('id_estudiante'),
+                foto: '',
+                cedula: '',
+                nombres: '',
+                apellidos: '',
+                tema:'',
+                fase: '',
+                correo: '',
+                nota_final: '',
+                nota1:'',
+                nota2:'',
+                nota3:'',
             },
             mounted() {
-                this.getFabricante();
+                this.getEstudiante();
             },
             methods:{
-                registrar(){
-                    const fd = new FormData();
-                    fd.append('nombre',this.nombre);
-                    fd.append('precio',Number(this.precio).toFixed(2));
-                    fd.append('descripcion',this.descripcion);
-                    fd.append('stock',Number(this.stock));
-                    fd.append('id_fabricante',Number(this.id_fabricante));
-                    fd.append('imagen',this.file, this.file.name);
+                actualizar(){
+					// if(this.id != "" && this.username !="" && this.password!="" && this.editar){
+					// 	let index = this.indexWhere(this.usuarios , usuario => usuario.id == this.id)
+					
+					// 	this.usuarios[index]={id:this.id, username:this.username, password:this.password}
+					// 	this.limpiar();
+					// }
+					//Update the user in the database
+					fetch('https://concurso-backend-api.herokuapp.com/usuario/update/'+ this.id,{
+						method:'PUT',
+						headers:{
+							'Content-Type':'application/json',
+							'authorization':localStorage.getItem('token')
+						},
+						body:JSON.stringify({
+							username:this.username,
+							password:this.password,
+							rol:this.rol
+						})
+					}).then(response=>{
+						//Update the user in the array
+						let index = this.indexWhere(this.usuarios , usuario => usuario.id == this.id)
+						if(this.rol == 1){
+							this.rol = 'admin';
+						}else if(this.rol == 2){
+							this.rol = 'jugueteria';
+						}else{
+							this.rol = 'fabricante';
+						}
+						this.usuarios[index]={id:this.id, username:this.username, password:this.password, rol:this.rol}
+						this.limpiar();
 
-
-					fetch('http://localhost:3000/juguetes/add',{
-						method:'POST',
-                        headers: {
-                            'authorization': localStorage.getItem('token')
-                        },
-						body:fd
-					    })
-                        .then(response => response.json())
-                        .then(data => {
-                            this.limpiar();
-                            window.location.href = 'inventarioJuguetes.html';
-                        });
-
-                    
-                },
+					});
+				},
                 logout(){
                     localStorage.removeItem('id_usuario');
                     localStorage.removeItem('token');
@@ -188,7 +200,7 @@
                 },
                 onFileSelected(event){
                     this.file = event.target.files[0];
-                    this.imagen_url = URL.createObjectURL(this.file);
+                    //this.imagen_url = URL.createObjectURL(this.file);
                     this.imagen_url.onload = function(e) {
                         URL.revokeObjectURL(this.file); //Liberar memoria
                     }
@@ -202,8 +214,8 @@
                     this.imagen = '';
                     this.file = '';
 				},
-                getFabricante(){
-                    fetch('http://localhost:3000/fabricantes' + '?id_usuario=' + this.id_usuario,{
+                getEstudiante(){
+                    fetch('https://concurso-backend-api.herokuapp.com/estudiantes' + '?id_estudiante=' + this.id_estudiante,{
                         method:'GET',
                         headers: {
                             'authorization': localStorage.getItem('token')
@@ -217,8 +229,11 @@
                             }
                         })
                         .then(data => {
-                            this.id_fabricante = data.id;
+                            this.id_estudiante = data.id;
                         });
+                },
+                aceptar(){
+                    window.location.href = 'listadoEstudiantes.html';
                 },
             }
         })
