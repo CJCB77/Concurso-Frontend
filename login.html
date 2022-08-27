@@ -98,7 +98,10 @@
                             localStorage.setItem('username', data.username);
                             localStorage.setItem('rol', data.rol);
                             localStorage.setItem('id_usuario', data.userId);
-                            if(data.rol == '2'){
+                            if(data.rol == 1){
+                                window.location.href = './Dashboard/main.html';
+                            }
+                            else if(data.rol == '2'){
                                 fetch("https://concurso-backend-api.herokuapp.com/usuario/verify/jugueteria/" + data.userId,{
                                     method: 'GET',
                                     headers: {
@@ -133,6 +136,7 @@
                                     }
                                 })
                             }
+                        
                         }else{
                             this.visibility = 'visible';
                         }
