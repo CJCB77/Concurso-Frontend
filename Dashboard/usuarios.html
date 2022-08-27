@@ -41,7 +41,7 @@
 									<div class="d-flex p-3 border-bottom mb-2">
 										<img src="./img/user.png" alt="user" class="img-user me-2">
 										<div class="d-block">
-											<p class="fw-bold m-0 lh-1" id="currentUser"></p>
+											<p class="fw-bold m-0 lh-1 ms-3 mt-2" id="currentUser">{{currentUser}}</p>
 										</div>
 									</div>
 									<a class="dropdown-item" href="#">
@@ -251,6 +251,7 @@
 				username:'',
 				password:'',
 				rol:'',
+				currentUser: localStorage.getItem('username')
 			},
 			mounted(){
 				this.obtenerUsuarios();
