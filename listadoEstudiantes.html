@@ -72,7 +72,7 @@
         <section class="perfil_estudiantes mb-5 px-4" >
             <h1 class="text-center mt-5 ">Listado Estudiantes</h1>
             <div class="text-center">
-                <img src="./imgs/aeroplane.png" style="height: 100px;">
+                <img src="./imgs/student.png" style="height: 100px;">
             </div>
             <div class="col-4 mt-1 mb-4">
                 <h5>Buscar: </h5>
@@ -86,67 +86,34 @@
     
             <table class="table table-striped" style="width:100%">
                 <thead>
-                    <th style="width: 20%;">Foto</th>
                     <th style="width: 10%;">Cedula</th>
                     <th style="width: 15%;">Nombres</th>
                     <th style="width: 15%;">Apellidos</th>
                     <th style="width: 15%;">Tema</th>
-                    <th style="width: 5%;">Fase</th>
-                    <th style="width: 10%;">Correo</th>
+                    <th style="width: 10%;">Fase</th>
+                    <th style="width: 15%;">Correo</th>
                     <th style="width: 10%;">Nota</th>
                     <th style="width: 10%;">Calificar</th>
                 </thead>
                 <tbody>
                     <tr v-for="(estudiante, index) in filtroEstudiantes">
+                        <!--                        
                         <td style="width: 20%;">
                             <img v-bind:src="estudiante.foto" alt="imagen" class="" style="height: 150px; width: 150px;">
-                        </td>
-                        <td style="width: 20%; vertical-align: middle;">{{estudiante.cedula}}</td>
-                        <td style="width: 20%; vertical-align: middle;">{{estudiante.nombres}}</td>
-                        <td style="width: 10%; vertical-align: middle;">{{estudiante.apellidos}}</td>
-                        <td style="width: 10%; vertical-align: middle;">{{estudiante.tema}}</td>
-                        <td style="width: 20%; vertical-align: middle;">{{estudiante.fase_id}}</td>
-                        <td style="width: 20%; vertical-align: middle;">{{estudiante.correo}}</td>
-                        <td style="width: 20%; vertical-align: middle;">{{estudiante.nota_final}}</td>
-                        <td style="width: 15%; vertical-align: middle;"><button type="button" class="btn btn-dark px-4" data-bs-toggle="modal" data-bs-target="#calificarModal" @click="calificarEstudiante(index)">Calificar</button></td>
+                        </td> -->
+                        <td style="width: 10%; vertical-align: middle;">{{estudiante.cedula}}</td>
+                        <td style="width: 15%; vertical-align: middle;">{{estudiante.nombres}}</td>
+                        <td style="width: 15%; vertical-align: middle;">{{estudiante.apellidos}}</td>
+                        <td style="width: 15%; vertical-align: middle;">{{estudiante.tema}}</td>
+                        <td style="width: 10%; vertical-align: middle;">{{estudiante.fase_id}}</td>
+                        <td style="width: 15%; vertical-align: middle;">{{estudiante.correo}}</td>
+                        <td style="width: 10%; vertical-align: middle;">{{estudiante.nota_final}}</td>
+                        <td style="width: 10%; vertical-align: middle;"><button type="button" class="btn btn-dark px-4" data-bs-toggle="modal" data-bs-target="#calificarModal" @click="calificarEstudiante(index)">Calificar</button></td>
                     </tr>
                 </tbody>
             </table>
     
-            <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col">
-                                <h5>Nombre:</h5>
-                                <input type="text"v-model="nombre">
-                            </div>
-                            <div class="col">
-                                <h5>Precio:</h5>
-                                <input type="text"v-model="precio">
-                            </div>
-                            <div class="col">
-                                <h5>Stock:</h5>
-                                <input type="text" v-model="stock">
-                            </div>
-                            <div class="col">
-                                <label for="exampleFormControlFile1">Imagen:</label>
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1" @change="onFileSelected">
-                              </div>
-                          </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="limpiar">Cerrar</button>
-                      <button type="button" class="btn btn-primary" @click="actualizar">Guardar</button>
-                    </div>
-                  </div>
-                </div>
-            </div>
+            
         </section>
     </div>
     
@@ -164,6 +131,7 @@
                 fase: '',
                 correo: '',
                 nota: '',
+                buscador:'',
             },
             mounted() {
                 this.getEstudiantes();
@@ -175,7 +143,7 @@
                     return this.estudiantes;
                 }   
                 return this.estudiantes.filter((estudiante) => {
-                    return estudiante.nombre.toLowerCase().includes(this.buscador.toLowerCase())
+                    return estudiante.nombres.toLowerCase().includes(this.buscador.toLowerCase()) || estudiante.cedula.toLowerCase().includes(this.buscador.toLowerCase())
                 });
                
                 }
