@@ -36,7 +36,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="listadoEstudiante.html">Listado Estudiantes</a>
+                            <a class="nav-link" href="listadoEstudiantes.html">Listado Estudiantes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="registrarEstudiante.html">Registrar Estudiantes</a>
@@ -48,12 +48,13 @@
                             <a class="nav-link text-dark ps-3 pe-1" href="#" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown">
                                 <img src="./imgs/user.png" style="height: 50px" alt="user" class="img-user">
+                            
                             </a>
                             <div class="dropdown-menu mt-2 pt-0" aria-labelledby="navbarDropdown">
                                 <div class="d-flex p-3 border-bottom mb-2">
                                     <img src="./imgs/user.png" style="height: 50px" alt="user" class="img-user me-2">
                                     <div class="d-block">
-                                        <p class="fw-bold m-0 lh-1" id="currentUser"></p>
+                                        <p class="fw-bold m-0 lh-1" id="currentUser">{{currentUser}}</p>
                                     
                                     </div>
                                 </div>
@@ -108,7 +109,7 @@
                         <td style="width: 10%; vertical-align: middle;">{{estudiante.fase_id}}</td>
                         <td style="width: 15%; vertical-align: middle;">{{estudiante.correo}}</td>
                         <td style="width: 10%; vertical-align: middle;">{{estudiante.nota_final}}</td>
-                        <td style="width: 10%; vertical-align: middle;"><button type="button" class="btn btn-dark px-4" data-bs-toggle="modal" data-bs-target="#calificarModal" @click="calificarEstudiante(index)">Calificar</button></td>
+                        <td style="width: 10%; vertical-align: middle;"><button type="button" class="btn btn-dark px-4" @click="calificar(index)">Calificar</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -132,6 +133,7 @@
                 correo: '',
                 nota: '',
                 buscador:'',
+                currentUser: localStorage.getItem('username')
             },
             mounted() {
                 this.getEstudiantes();
@@ -167,41 +169,6 @@
                         console.log(data)
                     })
                 },
-                actualizar(){
-                    
-                    fetch('https://concurso-backend-api.herokuapp.com/estudiantes'+ this.id,{
-                        method:'PUT',
-                        headers:{
-                            'Content-Type':'application/json',
-                            'authorization':localStorage.getItem('token')
-                        },
-                        body:JSON.stringify({
-                            nombre:this.nombre,
-                            ruc:this.ruc,
-                            titular:this.titular,
-                            ciudad:this.selected,
-                            direccion:this.direccion,
-                            telefono:this.telefono,
-                            id_usuario:this.id_usuario
-                        })
-                    })
-                    .then(response=> response.json())
-                    .then(data=>{
-                        console.log(data);
-                            fetch("" + data.id,{
-                                method:'GET',
-                                headers:{
-                                    'authorization':localStorage.getItem('token')
-                                }
-                            }).then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                this.datos.splice(this.datos.indexOf(this.datos.find(jugueteria => jugueteria.id == data.id)),1,data);
-                                this.limpiar();
-                            });
-                            this.limpiar();
-                    });
-                },
                 logout(){
                     localStorage.removeItem('id_usuario');
                     localStorage.removeItem('token');
@@ -209,8 +176,11 @@
                     localStorage.removeItem('username');
                     window.location.href = 'login.html';
                 },
-                agregar(){
-                    window.location.href = 'registroJuguete.html';
+                calificar(index){
+                    event.preventDefault()
+                    console.log(this.estudiantes[index].id)
+                    localStorage.setItem("id_estudiante",this.estudiantes[index].id)
+                    window.location = "calificarEstudiante.html"
                 },
                 indexWhere(array, conditionFn) {
 					const item = array.find(conditionFn)
