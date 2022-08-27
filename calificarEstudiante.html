@@ -77,31 +77,53 @@
                             </div>
                             <input type="file" class="form-control-file" id="imagen" name="imagen" @change="onFileSelected">
                         </div>
+                        <label for="fase1" class="fw-bold mb-1">Fase 1:</label>
+                        <div class="input-group" id="fase1">
+                            <input type="text" class="form-control" v-model="nota1" placeholder="nota1">
+                            <span class="input-group-text">
+                                00.00
+                            </span>
+                        </div>
+                        <label for="fase2" class="fw-bold mb-1">Fase 2:</label>
+                        <div class="input-group" id="fase2">
+                            <input type="text" class="form-control" v-model="nota2" placeholder="nota2">
+                            <span class="input-group-text">
+                                00.00
+                            </span>
+                        </div>
+                        <label for="fase3" class="fw-bold mb-1">Fase 3:</label>
+                        <div class="input-group" id="fase3">
+                            <input type="text" class="form-control" v-model="nota3" placeholder="nota3">
+                            <span class="input-group-text">
+                                00.00
+                            </span>
+                        </div>
+                        
                     </div>
                     <div class="col">
                         <div class="col mb-3">
                             <label for="nombre" class="fw-bold mb-1">Estudiante:</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="nombre" v-model="nombre">
+                            <h2 class="fw-lighter fs-4 mb-3">{{nombres}}{{apellidos}}</h2>
                         </div>
                         <div class="col mb-3">
                             <label for="descripcion" class="fw-bold mb-1">Cedula:</label>
-                            <textarea name="" id="" class="form-control"cols="20" rows="5" v-model="descripcion"></textarea>
+                            <h2 class="fw-lighter fs-4 mb-3">{{cedula}}</h2>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="descripcion" class="fw-bold mb-1">Tema:</label>
+                            <h2 class="fw-lighter fs-4 mb-3">{{tema}}</h2>
                         </div>
                         <div class="col mb-3">
                             <label for="stock" class="fw-bold mb-1">Email:</label>
-                            <input type="number" class="form-control" id="stock" placeholder="stock" v-model="stock">
+                            <h2 class="fw-lighter fs-4 mb-3">{{correo}}</h2>
+
                         </div>   
                         <div class="col mb-3">
                             <label for="stock" class="fw-bold mb-1">Nota Final:</label>
-                            <input type="number" class="form-control" id="stock" placeholder="stock" v-model="stock">
+                            <h2 class="fw-lighter fs-4 mb-3">{{nota_final}}</h2>
+
                         </div>        
-                        <label for="precio" class="fw-bold mb-1">Precio:</label>
-                        <div class="input-group" id="precio">
-                            <input type="text" class="form-control" v-model="precio" placeholder="precio">
-                            <span class="input-group-text">
-                                $
-                            </span>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="text-center mt-5 mb-3">
